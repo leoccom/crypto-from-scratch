@@ -39,7 +39,11 @@ def brute_force(ciphertext: str) -> list[tuple[int, str]]:  # returns all (shift
     """Caesar cipher brute force
     """
 
-    for i in range(26):
-        print(f"Shift: {i}, Decoded Text: {decrypt(ciphertext, i)}\n")
-    
+    possible_texts = []
 
+    for i in range(26):
+        possible_texts.append((i, decrypt(ciphertext, i)))
+
+    return possible_texts
+    
+print(brute_force("Uv, zl anzr vf Oevna. Avpr gb zrrg lbh!"))
