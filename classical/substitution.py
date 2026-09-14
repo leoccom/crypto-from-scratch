@@ -52,7 +52,10 @@ def draw_graph(frequency_dict: dict, N: int = 10):
     top_N = sorted(frequency_dict.items(), key= lambda item: item[1], reverse=True)[:N]
     x = [alpha for (alpha, _) in top_N] # Top N Alphabets
     y = [freq for (_, freq) in top_N] # Top N Frequencies
-    plt.bar(x, y)
+
+    ranks = list(range(N))
+
+    plt.bar(ranks, y)
 
     # ALPHABETS
     alphabets = list(ALPHABETS)
@@ -61,9 +64,27 @@ def draw_graph(frequency_dict: dict, N: int = 10):
     x_std = [alpha for (alpha, _) in std_freq_top_N] # Top N Alphabets Standard
     y_std = [freq for (_, freq) in std_freq_top_N] # Top N Frequencies Standard
 
-    plt.plot(x, y_std, "ro")
+    plt.plot(ranks, y_std, "ro")
 
+    for idx, (char, val) in enumerate(zip(x_std, y_std)):
+        plt.annotate(
+            text=char,                     # Standard letter (e.g., 'E', 'T', 'A')
+            xy=(idx, val),                 # Marker coordinate
+            xytext=(0, 6),                 # 6 points above marker
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontweight="bold",
+            color="darkred"
+        )
+
+    plt.xticks(ranks, x)
+    plt.xlabel("Ciphertext Characters (ranked)")
     plt.ylabel("Frequencies")
+    plt.title(f"Frequency Analysis: Top {N} Sample vs. Standard English")
+    plt.legend()
+    plt.margins(y=0.15)
+    plt.tight_layout()
 
     plt.show()
 
